@@ -1,0 +1,29 @@
+﻿@model HomeLoanPortal.ViewModels.LoginViewModel
+
+<h2>User Login</h2>
+
+<form asp-action="Login" method="post">
+
+    <div asp-validation-summary="All"></div>
+
+    <label>Email</label>
+    <input asp-for="Email" class="form-control" />
+
+    <label>Password</label>
+    <input asp-for="Password" class="form-control" />
+
+    <div>
+        <input asp-for="RememberMe" />
+        <label asp-for="RememberMe">Remember Me</label>
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">Login</button>
+
+    <p>
+        Don't have an account?
+        <a asp-action="Register" asp-controller="Account">Register here</a>
+    </p>
+
+</form>

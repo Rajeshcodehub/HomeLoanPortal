@@ -1,0 +1,48 @@
+﻿@model HomeLoanPortal.ViewModels.RegisterViewModel
+
+<h2>User Registration</h2>
+
+<form asp-action="Register" method="post">
+
+    <div asp-validation-summary="All"></div>
+
+    <label>First Name</label>
+    <input asp-for="FirstName" class="form-control" />
+
+    <label>Last Name</label>
+    <input asp-for="LastName" class="form-control" />
+
+    <label>Email</label>
+    <input asp-for="Email" class="form-control" />
+
+    <label>Password</label>
+    <input asp-for="Password" class="form-control" />
+
+    <label>Confirm Password</label>
+    <input asp-for="ConfirmPassword" class="form-control" />
+
+    <label>Phone Number</label>
+    <input asp-for="PhoneNumber" class="form-control" />
+
+    <label>Date of Birth</label>
+    <input asp-for="DateOfBirth" type="date" class="form-control" />
+
+    <label>Gender</label>
+    <select asp-for="Gender" class="form-control">
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+    </select>
+
+    <label>Nationality</label>
+    <input asp-for="Nationality" class="form-control" />
+
+    <br />
+    <button type="submit" class="btn btn-primary">Register</button>
+
+    <p>
+        Already have an account?
+        <a asp-action="Login" asp-controller="Account">Login here</a>
+    </p>
+
+</form>
