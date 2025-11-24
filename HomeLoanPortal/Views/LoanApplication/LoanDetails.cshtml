@@ -1,0 +1,209 @@
+﻿@model HomeLoanPortal.ViewModels.LoanDetailsViewModel
+@{
+    ViewData["Title"] = "Loan Details";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+    :root {
+        --brand-1: #0A75FF;
+        --brand-2: #003FA0;
+        --muted: #586b83;
+        --success: #28a745;
+    }
+
+    .wizard-wrap {
+        max-width: 780px;
+        margin: 28px auto;
+        padding: 16px;
+        font-family: Inter, sans-serif;
+    }
+
+    .stepper {
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .step {
+        flex: 1;
+        text-align: center;
+        position: relative;
+        padding: 8px 6px;
+    }
+
+    .dot {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 700;
+        color: white;
+        background: linear-gradient(90deg,var(--brand-1),var(--brand-2));
+    }
+
+    .step.inactive .dot {
+        background: #eef6ff;
+        color: rgba(0,0,0,0.45);
+    }
+
+    .step.completed .dot {
+        background: var(--success);
+    }
+
+    .title {
+        margin-top: 8px;
+        display: block;
+        font-size: 0.9rem;
+        color: #16324f;
+        font-weight: 700;
+    }
+
+    .progress-small {
+        height: 8px;
+        background: #e6f0ff;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 18px;
+    }
+
+        .progress-small > div {
+            height: 100%;
+            background: linear-gradient(90deg,var(--brand-1),var(--brand-2));
+            transition: width .35s ease;
+        }
+
+    .card-w {
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(6px);
+        border-radius: 12px;
+        padding: 22px;
+        box-shadow: 0 18px 40px rgba(0,80,200,0.06);
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #043a8b;
+        margin-bottom: 12px;
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #1f2e3b;
+        font-size: 0.95rem;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid #d6e2f5;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    }
+
+    .controls {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 18px;
+    }
+
+    .btn {
+        padding: 11px 18px;
+        border-radius: 10px;
+        border: none;
+        font-weight: 700;
+    }
+
+    .btn-outline {
+        background: white;
+        border: 1.6px solid var(--brand-1);
+        color: var(--brand-1);
+    }
+
+    .btn-primary {
+        background: linear-gradient(90deg,var(--brand-1),var(--brand-2));
+        color: white;
+    }
+
+    .alert-info {
+        background: #eef6ff;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 12px;
+    }
+
+    .text-danger {
+        color: #d9534f;
+    }
+</style>
+
+<div class="wizard-wrap">
+    <div class="stepper">
+        <div class="step completed"><div class="dot">✓</div><span class="title">Personal Details</span></div>
+        <div class="step completed"><div class="dot">✓</div><span class="title">Income & Property</span></div>
+        <div class="step active"><div class="dot">3</div><span class="title">Loan Details</span></div>
+        <div class="step inactive"><div class="dot">4</div><span class="title">Document Uploads</span></div>
+        <div class="step inactive"><div class="dot">5</div><span class="title">Review & Submit</span></div>
+    </div>
+    @Html.Partial("_LoanWizardStepper", 3)
+    <div class="progress-small"><div style="width:60%"></div></div>
+
+    <div class="card-w">
+        <div class="section-title">Loan Details</div>
+
+        <form asp-action="LoanDetails" method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="LoanApplicationId" type="hidden" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;">
+                <div>
+                    <label asp-for="LoanAmountRequired">Loan Amount Required (₹)</label>
+                    <input asp-for="LoanAmountRequired" type="number" />
+                    <span asp-validation-for="LoanAmountRequired" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="LoanTenureMonths">Loan Tenure (months)</label>
+                    <input asp-for="LoanTenureMonths" type="number" />
+                    <span asp-validation-for="LoanTenureMonths" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="InterestRate">Interest Rate (%)</label>
+                    <input asp-for="InterestRate" />
+                </div>
+
+                <div>
+                    <label>Eligibility</label>
+                    @if (Model.MaxEligibleAmount != null)
+                    {
+                        <div class="alert-info">You are eligible for: <strong>₹ @Model.MaxEligibleAmount.Value.ToString("N2")</strong></div>
+                    }
+                    else
+                    {
+                        <div class="small">Complete income details to see eligibility</div>
+                    }
+                </div>
+            </div>
+
+            <div class="controls">
+                <a asp-action="IncomeDetails" asp-route-id="@Model.LoanApplicationId" class="btn btn-outline">Back</a>
+                <button type="submit" class="btn btn-primary">Save & Continue</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

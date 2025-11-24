@@ -1,29 +1,146 @@
 ﻿@model HomeLoanPortal.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
 
-<h2>User Login</h2>
+<style>
+    /* ===== Subtle Background Gradient ===== */
+    body {
+        background: linear-gradient(to bottom right, #f5faff, #e8f1ff);
+    }
 
-<form asp-action="Login" method="post">
+    /* ===== Page Slide-In Animation ===== */
+    .login-page {
+        animation: slideIn 0.45s ease;
+    }
 
-    <div asp-validation-summary="All"></div>
+    @@keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
 
-    <label>Email</label>
-    <input asp-for="Email" class="form-control" />
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-    <label>Password</label>
-    <input asp-for="Password" class="form-control" />
+    /* ===== Clean Professional Card ===== */
+    .login-card {
+        max-width: 430px;
+        margin: 50px auto;
+        padding: 32px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(4px);
+        box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    }
 
-    <div>
-        <input asp-for="RememberMe" />
-        <label asp-for="RememberMe">Remember Me</label>
+    /* ===== Headings ===== */
+    .login-title {
+        color: #0a4da3;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 6px;
+    }
+
+    .login-subtitle {
+        color: #6d6d6d;
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+    /* ===== Input Fields ===== */
+    .form-control {
+        border-radius: 8px;
+        padding: 11px 14px;
+        border: 1px solid #cccccc;
+        transition: 0.25s ease;
+    }
+
+        .form-control:focus {
+            border-color: #0a67de;
+            box-shadow: 0 0 6px rgba(10, 103, 222, 0.28);
+        }
+
+    /* ===== Login Button ===== */
+    .btn-login {
+        width: 100%;
+        padding: 12px 0;
+        background: #0a67de;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 1.05rem;
+        font-weight: 600;
+        transition: 0.25s ease;
+    }
+
+        .btn-login:hover {
+            background: #0959c0;
+            transform: translateY(-2px);
+            box-shadow: 0px 6px 14px rgba(9, 89, 192, 0.25);
+        }
+
+    /* ===== Links ===== */
+    .login-link {
+        color: #0a67de;
+        text-decoration: none;
+    }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+    /* ===== Validation Error ===== */
+    .text-danger {
+        font-size: 0.85rem;
+        margin-top: 3px;
+        display: block;
+    }
+</style>
+
+
+<div class="login-page">
+    <div class="login-card">
+
+        <h3 class="login-title">User Login</h3>
+        <p class="login-subtitle">Login to Continue</p>
+
+        <form asp-action="Login" method="post">
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <!-- EMAIL -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Password</label>
+                <input asp-for="Password" class="form-control" placeholder="Enter your password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <!-- BUTTON -->
+            <button type="submit" class="btn-login mt-3">Login</button>
+
+            <div class="text-center mt-3">
+                <small>
+                    New User?
+                    <a asp-controller="Account" asp-action="Register" class="login-link">Register here</a>
+                </small>
+            </div>
+
+        </form>
+
     </div>
+</div>
 
-    <br />
-
-    <button type="submit" class="btn btn-primary">Login</button>
-
-    <p>
-        Don't have an account?
-        <a asp-action="Register" asp-controller="Account">Register here</a>
-    </p>
-
-</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

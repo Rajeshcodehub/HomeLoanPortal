@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "_AdminLayout";
+}
+
+@model HomeLoanPortal.Models.LoanApplication
+
+<h2>Application Details</h2>
+
+<h4>@Model.FirstName @Model.LastName</h4>
+
+<p><strong>Application ID:</strong> @Model.ApplicationNumber</p>
+<p><strong>Loan Amount:</strong> ₹@Model.LoanAmountRequired?.ToString("N0")</p>
+<p><strong>Status:</strong> @Model.Status</p>
+
+<h3>Documents</h3>
+<ul>
+    @foreach (var doc in Model.Documents)
+    {
+        <li>@doc.DocumentType - <a href="@doc.FilePath" target="_blank">View</a></li>
+    }
+</ul>
+
+<h3>Update Status</h3>
+
+<form asp-action="UpdateStatus" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <select name="status" class="form-select">
+        @foreach (var s in Enum.GetValues(typeof(HomeLoanPortal.Models.LoanApplicationStatus)))
+        {
+            <option value="@s" selected="@(Model.Status == (LoanApplicationStatus)s)">
+                @s
+            </option>
+        }
+    </select>
+
+    <button class="btn btn-success mt-2">Update</button>
+</form>

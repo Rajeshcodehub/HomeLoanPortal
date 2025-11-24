@@ -1,0 +1,45 @@
+﻿@model HomeLoanPortal.Models.LoanApplication
+@{
+    ViewData["Title"] = "Application Details";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div style="max-width: 800px; margin: 20px auto; font-family:Inter, sans-serif;">
+    <h2>Loan Application Details</h2>
+
+    <div class="card p-3 mt-3 shadow-sm">
+        <h5>Applicant</h5>
+        <p>@Model.FirstName @Model.LastName</p>
+
+        <h5>Loan</h5>
+        <p>Amount Required: <strong>₹@Model.LoanAmountRequired?.ToString("N2")</strong></p>
+        <p>Tenure: @Model.LoanTenureMonths months</p>
+        <p>Interest Rate: @Model.InterestRate %</p>
+
+        <h5>Property</h5>
+        <p>@Model.PropertyName, @Model.PropertyLocation</p>
+
+        <h5>Status</h5>
+        <p>@Model.Status</p>
+
+        @if (Model.Status == LoanApplicationStatus.SentForVerification ||
+                Model.Status == LoanApplicationStatus.Verified ||
+                Model.Status == LoanApplicationStatus.Approved)
+        {
+            <p><strong>Appointment Date:</strong> @Model.VerificationAppointmentDate?.ToString("dd MMM yyyy")</p>
+        }
+
+        <h5>Documents</h5>
+        <ul>
+            @foreach (var d in Model.Documents)
+            {
+                <li>@d.DocumentType - <a href="@d.FilePath" target="_blank">View</a></li>
+            }
+        </ul>
+
+        <div class="mt-3">
+            <a asp-action="MyApplications" class="btn btn-outline">Back</a>
+        </div>
+    </div>
+</div>

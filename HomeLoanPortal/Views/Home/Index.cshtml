@@ -1,8 +1,56 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- HERO SECTION -->
+<div class="container text-center mt-5">
+
+    <h1 class="fw-bold text-primary mb-3">Discover Home Loans Easily</h1>
+
+    <p class="text-muted mb-4">
+        Check eligibility, apply for loans, calculate EMI, and track your application — all in one place.
+    </p>
+
+    <a asp-controller="LoanApplication" asp-action="PersonalDetails" class="btn btn-primary btn-lg px-4 mb-5">
+        Apply for Loan
+    </a>
+
+</div>
+
+<!-- FEATURES CARDS -->
+<div class="container mt-4">
+
+    <div class="row g-4">
+
+        <!-- Eligibility Card -->
+        <div class="col-md-4">
+            <div class="p-4 border rounded shadow-sm h-100">
+                <h5 class="fw-bold">Eligibility Check</h5>
+                <p class="text-muted mb-3">Check if you qualify for a home loan.</p>
+                <a asp-controller="Eligibility" asp-action="Index" class="btn btn-outline-primary">Check Now</a>
+            </div>
+        </div>
+
+        <!-- EMI Calculator Card -->
+        <div class="col-md-4">
+            <div class="p-4 border rounded shadow-sm h-100">
+                <h5 class="fw-bold">EMI Calculator</h5>
+                <p class="text-muted mb-3">Calculate your monthly EMI instantly.</p>
+                <a asp-controller="Calculator" asp-action="EMI" class="btn btn-outline-primary">Calculate EMI</a>
+            </div>
+        </div>
+
+        <!-- Track Application Card -->
+        <div class="col-md-4">
+            <div class="p-4 border rounded shadow-sm h-100">
+                <h5 class="fw-bold">Track Application</h5>
+                <p class="text-muted mb-3">Track the status of your loan.</p>
+                <a asp-controller="LoanTracker" asp-action="Index" class="btn btn-outline-primary">Track Status</a>
+            </div>
+        </div>
+
+        
+
+
+    </div>
 </div>

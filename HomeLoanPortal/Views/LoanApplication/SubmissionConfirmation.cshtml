@@ -1,0 +1,110 @@
+﻿@model HomeLoanPortal.Models.LoanApplication
+@{
+    ViewData["Title"] = "Application Submitted";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+    :root {
+        --brand-1: #0A75FF;
+        --brand-2: #003FA0;
+        --success: #28a745;
+    }
+
+    body {
+        font-family: Inter, sans-serif;
+    }
+
+    .confirm-wrap {
+        max-width: 850px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .card-success {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 28px;
+        box-shadow: 0 12px 30px rgba(0,80,200,0.08);
+    }
+
+    .big-check {
+        font-size: 70px;
+        color: var(--success);
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .app-id-box {
+        padding: 18px;
+        background: linear-gradient(90deg,var(--brand-1),var(--brand-2));
+        color: white;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-top: 18px;
+    }
+
+    .summary {
+        margin-top: 25px;
+        font-size: 1.05rem;
+    }
+
+    .summary-item {
+        margin-bottom: 8px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(90deg,var(--brand-1),var(--brand-2));
+        border: none;
+        padding: 12px 18px;
+        font-size: 1.1rem;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="confirm-wrap">
+
+    <div class="card-success">
+
+        <div class="big-check">✓</div>
+
+        <h2 class="text-center fw-bold mt-3" style="color: var(--success);">
+            Application Submitted Successfully!
+        </h2>
+
+        <p class="text-center text-muted">
+            Your Home Loan Application has been submitted and sent for verification.
+        </p>
+
+        <!-- ⭐ APPLICATION NUMBER DISPLAY ⭐ -->
+        <div class="app-id-box">
+            Application ID: @Model.ApplicationNumber
+        </div>
+
+        @if (Model.VerificationAppointmentDate != null)
+        {
+            <div class="summary text-center mt-3">
+                <div class="fw-bold">Verification Appointment:</div>
+                <div>@Model.VerificationAppointmentDate?.ToString("dddd, dd MMM yyyy")</div>
+            </div>
+        }
+
+        <!-- Optional Summary -->
+        <div class="summary mt-4">
+            <div class="summary-item"><strong>Name:</strong> @Model.FirstName @Model.LastName</div>
+            <div class="summary-item"><strong>Loan Amount:</strong> ₹ @Model.LoanAmountRequired?.ToString("N2")</div>
+            <div class="summary-item"><strong>Status:</strong> @Model.Status</div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a asp-controller="LoanTracker" asp-action="Index" asp-route-applicationNumber="@Model.ApplicationNumber"
+               class="btn btn-primary px-5">
+                Track Application
+            </a>
+        </div>
+
+    </div>
+</div>

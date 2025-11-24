@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "_AdminLayout";
+}
+
+@model List<HomeLoanPortal.Models.LoanApplication>
+
+<h2>All Loan Applications</h2>
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Applicant</th>
+            <th>Loan Amount</th>
+            <th>Status</th>
+            <th>Submitted</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var l in Model)
+        {
+            <tr>
+                <td>@l.ApplicationNumber</td>
+                <td>@l.FirstName @l.LastName</td>
+                <td>₹@(l.LoanAmountRequired?.ToString("N0") ?? "-")</td>
+                <td>@l.Status</td>
+                <td>@(l.SubmittedOn?.ToString("dd MMM yyyy") ?? "-")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@l.Id" class="btn btn-primary btn-sm">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

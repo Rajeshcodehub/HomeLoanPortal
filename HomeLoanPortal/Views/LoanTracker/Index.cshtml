@@ -1,0 +1,73 @@
+﻿@model HomeLoanPortal.ViewModels.LoanTrackerViewModel
+@{
+    ViewData["Title"] = "Loan Tracker";
+}
+
+<style>
+    .tracker-card {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 28px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .btn-track {
+        background: #0a67de;
+        color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        width: 100%;
+    }
+</style>
+
+<div class="tracker-card">
+
+    <h3 class="text-center" style="color:#0a4da3;">Track Your Application</h3>
+    <p class="text-muted text-center mb-4">Enter your Application ID and Date of Birth.</p>
+
+    <form asp-action="Index" method="post">
+        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Application ID</label>
+            <input asp-for="ApplicationNumber" class="form-control" placeholder="e.g., APP202500001" />
+            <span asp-validation-for="ApplicationNumber" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Date of Birth</label>
+            <input asp-for="DateOfBirth" type="date" class="form-control" />
+            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+        </div>
+
+        <button class="btn-track" type="submit">Track Application</button>
+    </form>
+
+    @if (Model.Status != null)
+    {
+        <div class="alert alert-info mt-4">
+            <strong>Applicant:</strong> @Model.ApplicantName <br />
+            <strong>Status:</strong> @Model.Status <br />
+
+            @if (Model.VerificationAppointmentDate != null)
+            {
+                <strong>Appointment Date:</strong> 
+                @Model.VerificationAppointmentDate.Value.ToString("dd MMM yyyy")
+            }
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

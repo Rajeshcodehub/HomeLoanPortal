@@ -1,48 +1,175 @@
 ﻿@model HomeLoanPortal.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
 
-<h2>User Registration</h2>
+<style>
+    /* === Page Fade-in === */
+    .register-page {
+        animation: fadePage 0.4s ease-in-out;
+    }
 
-<form asp-action="Register" method="post">
+    @@keyframes fadePage {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
 
-    <div asp-validation-summary="All"></div>
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-    <label>First Name</label>
-    <input asp-for="FirstName" class="form-control" />
+    /* === Card Styling === */
+    .register-card {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 30px;
+        border-radius: 12px;
+        border: 1px solid #e5e5e5;
+        background: #ffffff;
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
+    }
 
-    <label>Last Name</label>
-    <input asp-for="LastName" class="form-control" />
+    /* === Inputs === */
+    .form-control {
+        border-radius: 8px;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        transition: 0.2s ease;
+    }
 
-    <label>Email</label>
-    <input asp-for="Email" class="form-control" />
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0,123,255,0.4);
+        }
 
-    <label>Password</label>
-    <input asp-for="Password" class="form-control" />
+    /* === Buttons === */
+    .btn-primary {
+        background: #007bff;
+        border-radius: 8px;
+        padding: 10px 16px;
+        border: none;
+        transition: 0.25s ease;
+    }
 
-    <label>Confirm Password</label>
-    <input asp-for="ConfirmPassword" class="form-control" />
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 6px 14px rgba(0,123,255,0.35);
+        }
 
-    <label>Phone Number</label>
-    <input asp-for="PhoneNumber" class="form-control" />
+    /* === Validation Messages === */
+    .text-danger {
+        font-size: 0.85rem;
+        margin-top: 3px;
+    }
 
-    <label>Date of Birth</label>
-    <input asp-for="DateOfBirth" type="date" class="form-control" />
+    /* === Login Link === */
+    .login-link:hover {
+        text-decoration: underline;
+        color: #0056b3;
+    }
+</style>
 
-    <label>Gender</label>
-    <select asp-for="Gender" class="form-control">
-        <option>Male</option>
-        <option>Female</option>
-        <option>Other</option>
-    </select>
 
-    <label>Nationality</label>
-    <input asp-for="Nationality" class="form-control" />
+<div class="register-page">
+    <div class="register-card">
 
-    <br />
-    <button type="submit" class="btn btn-primary">Register</button>
+        <h2 class="text-center mb-3" style="color:#007bff;">
+            Create Your Account
+        </h2>
 
-    <p>
-        Already have an account?
-        <a asp-action="Login" asp-controller="Account">Login here</a>
-    </p>
+        <p class="text-center text-muted mb-4">
+            Register to apply for home loans and track your application.
+        </p>
 
-</form>
+        <form asp-action="Register" method="post">
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <!-- FIRST NAME -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">First Name</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <!-- LAST NAME -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Last Name</label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Email Address</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <!-- PHONE -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Mobile Number</label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <!-- DOB -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Date of Birth</label>
+                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+
+            <!-- GENDER -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Gender</label>
+                <select asp-for="Gender" class="form-control">
+                    <option disabled selected>-- Select --</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+
+            <!-- NATIONALITY -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Nationality</label>
+                <input asp-for="Nationality" class="form-control" />
+                <span asp-validation-for="Nationality" class="text-danger"></span>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Password</label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <!-- CONFIRM PASSWORD -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Confirm Password</label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button type="submit" class="btn btn-primary w-100 mt-2">
+                Register
+            </button>
+
+            <p class="text-center mt-3">
+                Already have an account?
+                <a asp-controller="Account" asp-action="Login" class="login-link">Login</a>
+            </p>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

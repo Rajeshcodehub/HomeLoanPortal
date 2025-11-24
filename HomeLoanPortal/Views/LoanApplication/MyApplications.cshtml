@@ -1,0 +1,145 @@
+﻿@model HomeLoanPortal.ViewModels.MyApplicationsListViewModel
+
+@{
+    ViewData["Title"] = "My Applications";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+    .table-wrapper {
+        max-width: 900px;
+        margin: 20px auto;
+        font-family: Inter, sans-serif;
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
+
+    .btn-outline {
+        border: 1.6px solid #0A75FF;
+        color: #0A75FF;
+        background: white;
+    }
+
+    /* STATUS BADGES */
+    .status-badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: white;
+    }
+
+    .status-draft {
+        background: #6c757d;
+    }
+    /* gray */
+    .status-sent {
+        background: #0d6efd;
+    }
+    /* blue */
+    .status-verified {
+        background: #0d6efd;
+    }
+    /* blue */
+    .status-approved {
+        background: #28a745;
+    }
+    /* green */
+    .status-rejected {
+        background: #dc3545;
+    }
+    /* red */
+    .status-other {
+        background: #343a40;
+    }
+    /* dark */
+</style>
+
+<div class="table-wrapper">
+    <h2 class="mb-3">My Loan Applications</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Application ID</th>
+                <th>Status</th>
+                <th>Loan Amount</th>
+                <th>Submitted On</th>
+                <th>Appointment</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model.Items)
+
+            {
+                <tr>
+                    <td>@(string.IsNullOrWhiteSpace(a.ApplicationNumber) ? $"DRAFT-{a.Id}" : a.ApplicationNumber)</td>
+
+                    <!-- UPDATED STATUS CELL (with colors) -->
+                    <td>
+                        @{
+                            var status = (a.Status ?? "").ToLowerInvariant();
+                            var css = "status-other";
+                            var label = a.Status ?? "Unknown";
+
+                            switch (status)
+                            {
+                                case "draft":
+                                    css = "status-draft"; label = "Draft"; break;
+
+                                case "sentforverification":
+                                    css = "status-sent"; label = "Sent for Verification"; break;
+
+                                case "verified":
+                                    css = "status-verified"; label = "Verified"; break;
+
+                                case "approved":
+                                    css = "status-approved"; label = "Approved"; break;
+
+                                case "rejected":
+                                    css = "status-rejected"; label = "Rejected"; break;
+
+                                default:
+                                    css = "status-other"; break;
+                            }
+                        }
+
+                        <span class="status-badge @css">@label</span>
+                    </td>
+
+                    <td>@(a.LoanAmountRequired?.ToString("N2") ?? "-")</td>
+                    <td>@(a.SubmittedOn?.ToString("dd MMM yyyy") ?? "Not Submitted")</td>
+                    <td>@(a.VerificationAppointmentDate?.ToString("dd MMM yyyy") ?? "-")</td>
+
+                    <td>
+                        @if (string.IsNullOrWhiteSpace(a.ApplicationNumber))
+                        {
+                            <!-- Draft → resume application -->
+                            <a asp-action="PersonalDetails" asp-route-id="@a.Id" class="btn btn-outline btn-sm">Resume</a>
+                        }
+                        else
+                        {
+                            <!-- Submitted → view details -->
+                            <a asp-action="MyApplicationDetails" asp-route-id="@a.Id" class="btn btn-outline btn-sm">View</a>
+
+                            <!-- Track button: opens LoanTracker with applicationNumber prefilled -->
+                            <a asp-controller="LoanTracker" asp-action="Index"
+                               asp-route-applicationNumber="@a.ApplicationNumber"
+                               class="btn btn-primary btn-sm" style="margin-left:8px;">
+                                Track
+                            </a>
+                        }
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

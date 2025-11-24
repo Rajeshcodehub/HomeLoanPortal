@@ -1,0 +1,103 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Reports";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<h3 class="mb-4">Loan Application Reports</h3>
+
+<div class="row">
+
+    <!-- TOTAL -->
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm p-3 text-center">
+            <h5>Total Applications</h5>
+            <h1 class="text-primary">@ViewBag.Total</h1>
+        </div>
+    </div>
+
+    <!-- APPROVED -->
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm p-3 text-center">
+            <h5>Approved</h5>
+            <h1 class="text-success">@ViewBag.Approved</h1>
+        </div>
+    </div>
+
+    <!-- REJECTED -->
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm p-3 text-center">
+            <h5>Rejected</h5>
+            <h1 class="text-danger">@ViewBag.Rejected</h1>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+
+    <!-- PIE CHART -->
+    <div class="col-md-6">
+        <div class="card p-3 shadow-sm">
+            <h5>Status Distribution</h5>
+            <canvas id="statusPie"></canvas>
+        </div>
+    </div>
+
+    <!-- BAR CHART -->
+    <div class="col-md-6">
+        <div class="card p-3 shadow-sm">
+            <h5>Applications Overview</h5>
+            <canvas id="statusBar"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const pieCtx = document.getElementById('statusPie');
+    const barCtx = document.getElementById('statusBar');
+
+    new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Approved', 'Rejected', 'Verified', 'Pending', 'Draft'],
+            datasets: [{
+                data: [
+                    @ViewBag.Approved,
+                    @ViewBag.Rejected,
+                    @ViewBag.Verified,
+                    @ViewBag.Pending,
+                    @ViewBag.Draft
+                ],
+                backgroundColor: [
+                    '#28a745',
+                    '#dc3545',
+                    '#0d6efd',
+                    '#ffc107',
+                    '#6c757d'
+                ]
+            }]
+        }
+    });
+
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Approved', 'Rejected', 'Verified', 'Pending', 'Draft'],
+            datasets: [{
+                label: 'Count',
+                data: [
+                    @ViewBag.Approved,
+                    @ViewBag.Rejected,
+                    @ViewBag.Verified,
+                    @ViewBag.Pending,
+                    @ViewBag.Draft
+                ],
+                backgroundColor: '#0A75FF'
+            }]
+        }
+    });
+</script>

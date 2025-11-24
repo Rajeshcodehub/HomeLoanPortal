@@ -1,0 +1,115 @@
+﻿@model HomeLoanPortal.ViewModels.EMIViewModel
+@{
+    ViewData["Title"] = "EMI Calculator";
+}
+
+<style>
+    .calculator-page {
+        animation: slideIn 0.45s ease;
+    }
+
+    @@keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .calculator-card {
+        max-width: 720px;
+        margin: 40px auto;
+        padding: 28px;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 10px 14px;
+        border: 1px solid #cccccc;
+        transition: 0.2s;
+    }
+
+        .form-control:focus {
+            border-color: #0a67de;
+            box-shadow: 0 0 6px rgba(10,103,222,0.18);
+        }
+
+    .btn-calc {
+        width: 100%;
+        padding: 12px 0;
+        background: #0a67de;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+        .btn-calc:hover {
+            background: #0959c0;
+            transform: translateY(-2px);
+        }
+
+    .result-box {
+        margin-top: 18px;
+    }
+
+    .small-note {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+</style>
+
+<div class="calculator-page">
+    <div class="calculator-card">
+        <h3 class="text-center" style="color:#0a4da3;">EMI Calculator</h3>
+        <p class="text-center small-note mb-4">Interest rate is by default 8.5% (annual). You can change it if needed.</p>
+
+        <form asp-action="EMI" method="post">
+            <div asp-validation-summary="All" class="text-danger mb-2"></div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Loan Amount (₹)</label>
+                    <input asp-for="LoanAmount" class="form-control" placeholder="e.g. 500000" />
+                    <span asp-validation-for="LoanAmount" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Tenure (months)</label>
+                    <input asp-for="TenureMonths" class="form-control" placeholder="e.g. 240" />
+                    <span asp-validation-for="TenureMonths" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Interest Rate (annual %)</label>
+                    <input asp-for="InterestRateAnnual" class="form-control" />
+                    <span asp-validation-for="InterestRateAnnual" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-end">
+                    <button type="submit" class="btn-calc">Calculate EMI</button>
+                </div>
+            </div>
+        </form>
+
+        @if (Model.MonthlyEMI != null)
+        {
+            <div class="result-box alert alert-success mt-4 text-center">
+                <h5 class="mb-1">Monthly EMI</h5>
+                <h2 class="fw-bold">₹ @Model.MonthlyEMI.Value.ToString("N2")</h2>
+                <p class="small-note mt-2">Total payable over tenure: ₹ @( (Model.MonthlyEMI.Value * Model.TenureMonths).ToString("N2") )</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

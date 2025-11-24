@@ -1,0 +1,119 @@
+﻿@model HomeLoanPortal.ViewModels.EligibilityViewModel
+@{
+    ViewData["Title"] = "Eligibility Calculator";
+}
+
+<style>
+    /* ===== Page Fade Animation ===== */
+    .eligibility-page {
+        animation: slideIn 0.45s ease;
+    }
+
+    @@keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ===== Card Styling ===== */
+    .eligibility-card {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 32px;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0px 4px 18px rgba(0,0,0,0.06);
+    }
+
+    /* ===== Input Fields ===== */
+    .form-control {
+        border-radius: 8px;
+        padding: 11px 14px;
+        border: 1px solid #cccccc;
+        transition: 0.25s ease;
+    }
+
+        .form-control:focus {
+            border-color: #0a67de;
+            box-shadow: 0 0 6px rgba(10,103,222,0.28);
+        }
+
+    /* ===== Button Style ===== */
+    .btn-calc {
+        width: 100%;
+        padding: 12px 0;
+        background: #0a67de;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 1.05rem;
+        font-weight: 600;
+        transition: 0.25s ease;
+    }
+
+        .btn-calc:hover {
+            background: #0959c0;
+            transform: translateY(-2px);
+            box-shadow: 0px 6px 14px rgba(9,89,192,0.25);
+        }
+
+    /* ===== Result Box ===== */
+    .result-box {
+        margin-top: 25px;
+        padding: 18px;
+        border-radius: 10px;
+    }
+
+    .text-danger {
+        font-size: 0.85rem;
+        margin-top: 3px;
+        display: block;
+    }
+</style>
+
+
+<div class="eligibility-page">
+    <div class="eligibility-card">
+
+        <h3 class="text-center" style="color:#0a4da3;">Eligibility Calculator</h3>
+        <p class="text-center text-muted mb-4">
+            Enter your monthly income to calculate your eligible loan amount.
+        </p>
+
+        <form asp-action="Index" method="post">
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <!-- Income Input -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Monthly Income (₹)</label>
+                <input asp-for="MonthlyIncome" class="form-control" placeholder="Enter your monthly income" />
+                <span asp-validation-for="MonthlyIncome" class="text-danger"></span>
+            </div>
+
+            <!-- Button -->
+            <button type="submit" class="btn-calc mt-2">Calculate Eligibility</button>
+
+            <!-- Result Section -->
+            @if (Model.EligibleLoanAmount != null)
+            {
+                <div class="result-box alert alert-success text-center mt-4">
+                    <h5 class="mb-1">Eligible Loan Amount:</h5>
+                    <h3 class="fw-bold">₹ @Model.EligibleLoanAmount.Value.ToString("N2")</h3>
+                </div>
+            }
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

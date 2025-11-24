@@ -1,0 +1,267 @@
+﻿@model HomeLoanPortal.ViewModels.PersonalDetailsViewModel
+@{
+    ViewData["Title"] = "Personal Details";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+    :root {
+        --brand-1: #0A75FF;
+        --brand-2: #003FA0;
+        --muted: #586b83;
+        --success: #28a745;
+    }
+
+    body {
+        font-family: 'Inter',sans-serif;
+        background: radial-gradient(circle at top, #eef4ff, #f8fbff);
+    }
+
+    .wizard-wrap {
+        max-width: 920px;
+        margin: 28px auto;
+        padding: 16px;
+    }
+
+    .stepper {
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .step {
+        flex: 1;
+        text-align: center;
+        position: relative;
+        padding: 8px 6px;
+    }
+
+    .dot {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 700;
+        color: white;
+        background: linear-gradient(90deg,var(--brand-1),var(--brand-2));
+        box-shadow: 0 10px 22px rgba(10,117,255,0.18);
+    }
+
+    .step.inactive .dot {
+        background: #eef6ff;
+        color: rgba(0,0,0,0.45);
+        box-shadow: none;
+    }
+
+    .step.completed .dot {
+        background: var(--success);
+        box-shadow: 0 6px 14px rgba(40,167,69,0.18);
+    }
+
+    .title {
+        margin-top: 8px;
+        display: block;
+        font-size: 0.9rem;
+        color: #16324f;
+        font-weight: 700;
+    }
+
+    .progress-small {
+        height: 8px;
+        background: #e6f0ff;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 18px;
+    }
+
+        .progress-small > div {
+            height: 100%;
+            background: linear-gradient(90deg,var(--brand-1),var(--brand-2));
+            transition: width .35s ease;
+        }
+
+    .card-w {
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(6px);
+        border-radius: 12px;
+        padding: 22px;
+        box-shadow: 0 18px 40px rgba(0,80,200,0.06);
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #043a8b;
+        margin-bottom: 12px;
+    }
+
+    .row-grid {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 14px;
+    }
+
+    @@media (max-width:780px) {
+        .row-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .controls {
+            flex-direction: column-reverse;
+        }
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #1f2e3b;
+        font-size: 0.95rem;
+    }
+
+    input[type="text"], input[type="email"], input[type="date"], select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid #d6e2f5;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        font-size: 0.98rem;
+    }
+
+    .controls {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 18px;
+    }
+
+    .btn {
+        padding: 11px 18px;
+        border-radius: 10px;
+        border: none;
+        font-weight: 700;
+        font-size: 0.98rem;
+        cursor: pointer;
+    }
+
+    .btn-outline {
+        background: white;
+        border: 1.6px solid var(--brand-1);
+        color: var(--brand-1);
+    }
+
+    .btn-primary {
+        background: linear-gradient(90deg,var(--brand-1),var(--brand-2));
+        color: white;
+    }
+
+    .text-danger {
+        color: #d9534f;
+        font-size: 0.9rem;
+        margin-top: 6px;
+    }
+</style>
+
+<div class="wizard-wrap">
+    <div class="stepper" aria-hidden="false">
+        <div class="step inactive completed"><div class="dot">✓</div><span class="title">Personal Details</span></div>
+        <div class="step inactive"><div class="dot">2</div><span class="title">Income & Property</span></div>
+        <div class="step inactive"><div class="dot">3</div><span class="title">Loan Details</span></div>
+        <div class="step inactive"><div class="dot">4</div><span class="title">Document Uploads</span></div>
+        <div class="step inactive"><div class="dot">5</div><span class="title">Review & Submit</span></div>
+    </div>
+    @Html.Partial("_LoanWizardStepper", 1)
+    <div class="progress-small"><div style="width:20%"></div></div>
+
+    <div class="card-w">
+        <div class="section-title">Personal Details</div>
+
+        <form asp-action="PersonalDetails" method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="LoanApplicationId" type="hidden" />
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="row-grid">
+                <div>
+                    <label asp-for="FirstName">First Name</label>
+                    <input asp-for="FirstName" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="MiddleName">Middle Name</label>
+                    <input asp-for="MiddleName" />
+                    <span asp-validation-for="MiddleName" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="LastName">Last Name</label>
+                    <input asp-for="LastName" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="DateOfBirth">Date of Birth</label>
+                    <input asp-for="DateOfBirth" type="date" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Gender">Gender</label>
+                    <select asp-for="Gender">
+                        <option value="">Select gender</option>
+                        <option>Female</option>
+                        <option>Male</option>
+                        <option>Other</option>
+                    </select>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Nationality">Nationality</label>
+                    <input asp-for="Nationality" />
+                    <span asp-validation-for="Nationality" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="AadharNumber">Aadhar Number</label>
+                    <input asp-for="AadharNumber" />
+                    <span asp-validation-for="AadharNumber" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="PanNumber">PAN Number</label>
+                    <input asp-for="PanNumber" />
+                    <span asp-validation-for="PanNumber" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="PhoneNumber">Phone Number</label>
+                    <input asp-for="PhoneNumber" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Email">Email</label>
+                    <input asp-for="Email" type="email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save & Continue</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

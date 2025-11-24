@@ -1,0 +1,90 @@
+﻿@model int
+@using Microsoft.AspNetCore.Html
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    int current = Model;
+
+    Func<int, string> StepCss = (step) =>
+    {
+        if (step < current) return "dot completed";   // green ✓
+        if (step == current) return "dot active";     // blue current
+        return "dot inactive";                        // grey
+    };
+
+    Func<int, string> StepText = (step) =>
+    {
+        return step < current ? "✓" : step.ToString();
+    };
+}
+
+<style>
+    :root {
+        --brand-1: #0A75FF;
+        --brand-2: #003FA0;
+        --success: #28a745;
+    }
+
+    .stepper {
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+        margin-bottom: 12px;
+    }
+
+    .step {
+        flex: 1;
+        text-align: center;
+    }
+
+    .dot {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-weight: 700;
+        background: linear-gradient(90deg,var(--brand-1),var(--brand-2));
+    }
+
+        .dot.completed {
+            background: var(--success);
+        }
+
+        .dot.inactive {
+            background: #eef6ff;
+            color: #666;
+        }
+
+    .title {
+        margin-top: 6px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #16324f;
+    }
+</style>
+
+<div class="stepper">
+    <div class="step">
+        <div class="@StepCss(1)">@StepText(1)</div>
+        <div class="title">Personal Details</div>
+    </div>
+    <div class="step">
+        <div class="@StepCss(2)">@StepText(2)</div>
+        <div class="title">Income & Property</div>
+    </div>
+    <div class="step">
+        <div class="@StepCss(3)">@StepText(3)</div>
+        <div class="title">Loan Details</div>
+    </div>
+    <div class="step">
+        <div class="@StepCss(4)">@StepText(4)</div>
+        <div class="title">Document Uploads</div>
+    </div>
+    <div class="step">
+        <div class="@StepCss(5)">@StepText(5)</div>
+        <div class="title">Review & Submit</div>
+    </div>
+</div>

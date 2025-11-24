@@ -18,13 +18,17 @@ namespace HomeLoanPortal.Controllers
             _signInManager = signInManager;
         }
 
-        // -------------------- REGISTER -------------------- //
+
+        // -------------------- REGISTER (GET) -------------------- //
 
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
+
+        // -------------------- REGISTER (POST) -------------------- //
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -48,23 +52,36 @@ namespace HomeLoanPortal.Controllers
 
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, false);
-                return RedirectToAction("Index", "Home");
+                if (await _userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
-            foreach (var error in result.Errors)
-                ModelState.AddModelError("", error.Description);
+
+            foreach (var err in result.Errors)
+            {
+                ModelState.AddModelError("", err.Description);
+            }
 
             return View(model);
         }
 
-        // -------------------- LOGIN -------------------- //
+
+        // -------------------- LOGIN (GET) -------------------- //
 
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
+
+        // -------------------- LOGIN (POST) -------------------- //
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
@@ -80,15 +97,15 @@ namespace HomeLoanPortal.Controllers
             );
 
             if (result.Succeeded)
-            {
                 return Redirect(returnUrl ?? "/");
-            }
 
             ModelState.AddModelError("", "Invalid email or password.");
             return View(model);
         }
 
+
         // -------------------- LOGOUT -------------------- //
+
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

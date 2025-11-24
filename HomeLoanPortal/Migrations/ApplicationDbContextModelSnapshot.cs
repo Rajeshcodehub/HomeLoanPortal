@@ -27,10 +27,6 @@ namespace HomeLoanPortal.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AadharNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
@@ -77,10 +73,6 @@ namespace HomeLoanPortal.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PanNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -158,34 +150,56 @@ namespace HomeLoanPortal.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("ApplicantDOB")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ApplicantFullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ApplicantId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ApplicationNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployerName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmploymentType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("EstimatedPropertyValue")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("InterestRate")
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("InterestRate")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("LoanAmountRequired")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("LoanTenureMonths")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MiddleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("MonthlyIncome")
                         .HasColumnType("decimal(18,2)");
@@ -203,15 +217,10 @@ namespace HomeLoanPortal.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PropertyLocation")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PropertyName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("RequestedLoanAmount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("RetirementAge")
                         .HasColumnType("int");
@@ -219,11 +228,8 @@ namespace HomeLoanPortal.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("SubmittedOn")
+                    b.Property<DateTime?>("SubmittedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("TenureMonths")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("VerificationAppointmentDate")
                         .HasColumnType("datetime2");
